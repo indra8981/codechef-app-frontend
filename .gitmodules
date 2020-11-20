@@ -1,0 +1,3 @@
+[submodule "codechef-app-backend"]
+	path = codechef-app-backend
+	url = https://github.com/indra8981/codechef-app
