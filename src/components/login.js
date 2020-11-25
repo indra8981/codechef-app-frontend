@@ -26,7 +26,7 @@ export default class LogIn extends Component {
         };
 
         const onFinish = (values) => {
-            axios.post("/login", values)
+            axios.post("https://codechef-practice-backend.herokuapp.com/login", values)
                 .then((response) => {
                     const cookies = new Cookies();
                     let expires = new Date();
