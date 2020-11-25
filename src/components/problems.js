@@ -29,13 +29,13 @@ export default class Problems extends Component {
     }
 
     componentDidMount() {
-        axios.get("/problems")
+        axios.get("https://codechef-practice-backend.herokuapp.com/problems")
             .then((response) => {
                 this.setState({ isProblemsLoading: false, problems: response.data });
             }).catch((error) => {
                 console.log(error.response.data);
             })
-        axios.get("/counts")
+        axios.get("https://codechef-practice-backend.herokuapp.com/counts")
             .then((response) => {
                 this.setState({ difficulty: response.data.difficulty, allTags: response.data.tags, allAuthors: response.data.authors }, () => {
                 });
@@ -89,7 +89,7 @@ export default class Problems extends Component {
         });
     };
     getAllTags(item) {
-        const url = `/problemTags?problemCode=${item.problemCode}`
+        const url = `https://codechef-practice-backend.herokuapp.com/problemTags?problemCode=${item.problemCode}`
         axios.get(url)
             .then((response) => {
                 this.setState({ visible: true, id: item.id, problemTags: response.data });
