@@ -13,7 +13,7 @@ export default class AllTags extends Component {
             mytags: [],
             allTags: [],
             allAuthors: [],
-            difficulty: ["cakewalk", "easy", "easy-medium", "medium", "medium-hard", "hard", "super-hard"],
+            difficulty: [],
             id: "",
         };
     }
