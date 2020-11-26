@@ -12,12 +12,14 @@ export default class Problems extends Component {
         this.state = {
             isProblemsLoading: true,
             problems: [],
+            mytags: [],
             allTags: [],
             allAuthors: [],
             difficulty: ["cakewalk", "easy", "easy-medium", "medium", "medium-hard", "hard", "super-hard"],
             selectedDifficulty: undefined,
             selectedAuthor: undefined,
             selectedTags: [],
+            selectedPersonalTags: [],
             visible: false,
             problemTags: [],
             id: "",
@@ -25,6 +27,7 @@ export default class Problems extends Component {
         this.handleChangeDiff = this.handleChangeDiff.bind(this);
         this.handleChangeAuthor = this.handleChangeAuthor.bind(this);
         this.handleChangeTags = this.handleChangeTags.bind(this);
+        this.handleChangePersonalTags = this.handleChangePersonalTags.bind(this);
         this.getProblems = this.getProblems.bind(this);
         this.tagAdd = this.tagAdd.bind(this);
     }
@@ -39,7 +42,7 @@ export default class Problems extends Component {
             })
         axios.post("/counts", { codechefApp })
             .then((response) => {
-                this.setState({ difficulty: response.data.difficulty, allTags: response.data.tags, allAuthors: response.data.authors }, () => {
+                this.setState({ difficulty: response.data.difficulty, allTags: response.data.tags, allAuthors: response.data.authors, mytags: response.data.personal }, () => {
                 });
             }).catch((error) => {
                 console.log(error.response.data);
@@ -55,10 +58,13 @@ export default class Problems extends Component {
         if (this.state.selectedAuthor !== undefined) {
             codechefApp["author"] = this.state.selectedAuthor;
         }
-        if (this.state.selectedTags.length > 0) {
-            const tg = `${this.state.selectedTags}`;
-            codechefApp["tags"] = tg;
-        }
+        var tg = "";
+        if (this.state.selectedTags.length > 0)
+            tg = `${this.state.selectedTags}`;
+
+        if (this.state.selectedPersonalTags.length > 0)
+            tg += `,${this.state.selectedPersonalTags}`;
+        codechefApp["tags"] = tg;
         axios.post("/problems", codechefApp)
             .then((response) => {
                 this.setState({ isProblemsLoading: false, problems: response.data });
@@ -84,6 +90,9 @@ export default class Problems extends Component {
     }
     handleChangeTags(values) {
         this.setState({ selectedTags: values });
+    }
+    handleChangePersonalTags(values) {
+        this.setState({ selectedPersonalTags: values });
     }
     getDescription(item) {
         const accuracy = (item.succSubmissions / item.totSubmissions) * 100;
@@ -224,6 +233,17 @@ export default class Problems extends Component {
                             >
                                 {this.renderOptions(this.state.allTags)}
                             </Select>
+                            {this.props.isLoggedIn && (
+                                <Select
+                                    mode="multiple"
+                                    style={{ width: '100%', margin: 10 }}
+                                    placeholder="Select Personal Tags"
+                                    onChange={this.handleChangePersonalTags}
+                                    allowClear
+                                >
+                                    {this.renderOptions(this.state.mytags)}
+                                </Select>
+                            )}
                             <Button type="primary" onClick={this.getProblems} style={{ margin: 10 }}>Search Problems</Button>
                         </div>
                     </Card>

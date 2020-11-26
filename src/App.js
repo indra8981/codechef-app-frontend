@@ -6,8 +6,7 @@ import HomePage from "./components/homepage.js";
 import SignUp from "./components/signup.js";
 import Problems from "./components/problems.js";
 import LogIn from "./components/login.js";
-
-// "proxy": "https://codechef-practice-backend.herokuapp.com",
+import AllTags from "./components/allTags"
 import withAuth from "./components/withAuth.js";
 function App() {
   return (
@@ -15,6 +14,7 @@ function App() {
       <div className="container">
         <Route path="/" exact component={withAuth(HomePage)} />
         <Route path="/problems" exact component={withAuth(Problems)} />
+        <Route path="/all-tags" exact component={withAuth(AllTags)} />
         <Route path="/register" component={SignUp} />
         <Route path="/login" component={LogIn} />
       </div>

@@ -1,0 +1,11 @@
+.allTagsContainer{
+    height: 100%;
+}
+.tabsContainer{
+    height: 100%;
+    padding: 50px;
+    overflow:scroll;
+    display: flex;
+  flex-wrap: wrap;
+
+}
