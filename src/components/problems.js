@@ -5,6 +5,7 @@ import { Button, Form, Input, Card, Select, List, BackTop, notification, Drawer,
 import { InfoCircleOutlined } from '@ant-design/icons';
 import Navbar from "./navbar.js";
 import "./styles/problems.css"
+axios.defaults.baseURL = 'https://codechef-practice-backend.herokuapp.com';
 export default class Problems extends Component {
     constructor(props) {
         super(props);
@@ -29,13 +30,14 @@ export default class Problems extends Component {
     }
 
     componentDidMount() {
-        axios.get("https://codechef-practice-backend.herokuapp.com/problems")
+        const codechefApp = this.props.cookie;
+        axios.post("/problems", { codechefApp })
             .then((response) => {
                 this.setState({ isProblemsLoading: false, problems: response.data });
             }).catch((error) => {
                 console.log(error.response.data);
             })
-        axios.get("https://codechef-practice-backend.herokuapp.com/counts")
+        axios.post("/counts", { codechefApp })
             .then((response) => {
                 this.setState({ difficulty: response.data.difficulty, allTags: response.data.tags, allAuthors: response.data.authors }, () => {
                 });
@@ -45,12 +47,19 @@ export default class Problems extends Component {
     }
 
     getProblems() {
+        const codechefApp = { codechefApp: this.props.cookie };
         this.setState({ isProblemsLoading: true });
-        const difficulty = this.state.selectedDifficulty == undefined ? "" : `difficulty=${this.state.selectedDifficulty}&`;
-        const author = this.state.selectedAuthor == undefined ? "" : `author=${this.state.selectedAuthor}&`;
-        const tags = this.state.selectedTags == [] ? "" : `tags=${this.state.selectedTags}`;
-        const url = "/problems?" + difficulty + author + tags;
-        axios.get(url)
+        if (this.state.selectedDifficulty !== undefined) {
+            codechefApp["difficulty"] = this.state.selectedDifficulty;
+        }
+        if (this.state.selectedAuthor !== undefined) {
+            codechefApp["author"] = this.state.selectedAuthor;
+        }
+        if (this.state.selectedTags.length > 0) {
+            const tg = `${this.state.selectedTags}`;
+            codechefApp["tags"] = tg;
+        }
+        axios.post("/problems", codechefApp)
             .then((response) => {
                 this.setState({ isProblemsLoading: false, problems: response.data });
             }).catch((error) => {
@@ -89,8 +98,9 @@ export default class Problems extends Component {
         });
     };
     getAllTags(item) {
-        const url = `https://codechef-practice-backend.herokuapp.com/problemTags?problemCode=${item.problemCode}`
-        axios.get(url)
+        const codechefApp = this.props.cookie;
+        const data = { problemCode: item.problemCode, codechefApp };
+        axios.post("/problemTags", data)
             .then((response) => {
                 this.setState({ visible: true, id: item.id, problemTags: response.data });
             }).catch((error) => {
@@ -117,7 +127,8 @@ export default class Problems extends Component {
         );
     }
     tagAdd(values) {
-        const data = { "problemId": this.state.id, "tagName": values.tag };
+        const codechefApp = this.props.cookie;
+        const data = { "problemId": this.state.id, "tagName": values.tag, codechefApp };
         const openNotification = () => {
             notification.success({
                 message: 'Tag Added Successfully',

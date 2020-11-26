@@ -26,6 +26,8 @@ export default class LogIn extends Component {
         };
 
         const onFinish = (values) => {
+            const cookiess = new Cookies();
+            console.log(cookiess.get('codechefApp'));
             axios.post("/login", values)
                 .then((response) => {
                     const cookies = new Cookies();
