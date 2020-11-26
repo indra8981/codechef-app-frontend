@@ -3,7 +3,7 @@ import axios from "axios";
 import "./styles/login.css";
 import { Button, Form, Input, Card } from "antd";
 import { Cookies } from "react-cookie";
-
+axios.defaults.baseURL = 'https://codechef-practice-backend.herokuapp.com';
 export default class LogIn extends Component {
     constructor(props) {
         super(props);
@@ -26,7 +26,7 @@ export default class LogIn extends Component {
         };
 
         const onFinish = (values) => {
-            axios.post("https://codechef-practice-backend.herokuapp.com/login", values)
+            axios.post("/login", values)
                 .then((response) => {
                     const cookies = new Cookies();
                     let expires = new Date();
