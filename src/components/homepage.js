@@ -43,7 +43,7 @@ export default class HomePage extends Component {
                                     While searching tags each tags also shows the problem counts which it is associated with along ith autocomplete feature.
                                 </li>
                                 <li>
-                                    Multiple tags can be applied at the same time.
+                                    Multiple tags can be applied at the same time while searching.
                                 </li>
                                 <li>
                                     <Link href="/all-tags">All tags</Link> shows a list of all tags along with their counts.
