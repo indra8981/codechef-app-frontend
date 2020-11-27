@@ -22,7 +22,7 @@ export default class HomePage extends Component {
                     <Typography>
                         <Title>Problems Practice Search App</Title>
                         <Paragraph>
-                            This is a programming practice web application made using Reactjs as frontend and php Slim framework as backend.
+                            This is a programming practice web application made using Reactjs as frontend and php Slim framework as backend and MYSQL as Database.
                             
                         </Paragraph>
                         <Paragraph>
@@ -31,16 +31,16 @@ export default class HomePage extends Component {
                         <Paragraph>
                             <ul>
                                 <li>
-                                    The web app works without login for non logged in users to just search the problems to practice according to predefined tags.
+                                    The web app supports login and signup functionality. If logged in a user can add their own tags to a problem.
                                 </li>
                                 <li>
-                                    The web app supports login and signup functionality. If logged in a user can add their own tags to a problem.
+                                    The web app works without login for non logged in users to just search the problems to practice according to predefined tags.
                                 </li>
                                 <li>
                                     <Link href="/problems">Problems</Link>  can search problems according to difficulty, authors, tags and if logged in then personal tags which were added to problems.
                                 </li>
                                 <li>
-                                    While searching tags each tags also shows the problem counts which it is associated with.
+                                    While searching tags each tags also shows the problem counts which it is associated with along ith autocomplete feature.
                                 </li>
                                 <li>
                                     Multiple tags can be applied at the same time.
