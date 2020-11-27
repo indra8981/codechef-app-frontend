@@ -15,8 +15,8 @@ function App() {
         <Route path="/" exact component={withAuth(HomePage)} />
         <Route path="/problems" exact component={withAuth(Problems)} />
         <Route path="/all-tags" exact component={withAuth(AllTags)} />
-        <Route path="/register" component={SignUp} />
-        <Route path="/login" component={LogIn} />
+        <Route path="/register" component={withAuth(SignUp)} />
+        <Route path="/login" component={withAuth(LogIn)} />
       </div>
     </Router>
   );
