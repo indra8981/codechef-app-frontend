@@ -19,7 +19,7 @@ export default class Navbar extends Component {
                 <Menu.Item
                     onClick={() => {
                         const cookies = new Cookies();
-                        cookies.remove("codechefApp", { path: "/", domain: "localhost" });
+                        cookies.remove("codechefApp", { path: "/", domain: "practice-app-codechef.herokuapp.com" });
                         window.location.reload();
                     }}
                 >
