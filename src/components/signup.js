@@ -10,7 +10,20 @@ class SignUp extends Component {
     constructor(props) {
         super(props);
     }
-
+    passwordValidator(rule, value, callback) {
+        if (value && value.length < 7) {
+            callback("Password needs to be at least 7 characters");
+            return;
+        }
+        callback();
+    }
+    usernameValidator(rule, value, callback) {
+        if (value && value.length < 7) {
+            callback("Username needs to be at least 7 characters");
+            return;
+        }
+        callback();
+    }
     render() {
         const layout = {
             labelCol: {
@@ -76,7 +89,9 @@ class SignUp extends Component {
                                         required: true,
                                         message: 'Please input your username!',
                                     },
+                                    { validator: this.usernameValidator },
                                 ]}
+                                validateTrigger='onBlur'
                             >
                                 <Input />
                             </Form.Item>
@@ -89,14 +104,16 @@ class SignUp extends Component {
                                         required: true,
                                         message: 'Please input your password!',
                                     },
+                                    { validator: this.passwordValidator },
                                 ]}
+                                validateTrigger='onBlur'
                             >
                                 <Input.Password />
                             </Form.Item>
 
                             <Form.Item {...tailLayout}>
                                 <Button type="primary" htmlType="submit">
-                                    Submit
+                                    SignUp
                             </Button>
                             </Form.Item>
                         </Form>

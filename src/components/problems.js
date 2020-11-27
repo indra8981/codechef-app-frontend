@@ -15,7 +15,7 @@ export default class Problems extends Component {
             mytags: [],
             allTags: [],
             allAuthors: [],
-            difficulty: ["cakewalk", "easy", "easy-medium", "medium", "medium-hard", "hard", "super-hard"],
+            difficulty: [],
             selectedDifficulty: undefined,
             selectedAuthor: undefined,
             selectedTags: [],
@@ -34,19 +34,41 @@ export default class Problems extends Component {
 
     componentDidMount() {
         const codechefApp = this.props.cookie;
-        axios.post("/problems", { codechefApp })
+        const { difficulty, author, tags, ptags } =
+            (this.props.location && this.props.location.state) || {};
+        console.log(difficulty, author, tags, ptags);
+        const data = this.getTagsPostData(difficulty, author, tags, ptags);
+        axios.post("/problems", data)
             .then((response) => {
                 this.setState({ isProblemsLoading: false, problems: response.data });
             }).catch((error) => {
-                console.log(error.response.data);
+                console.log(error);
             })
+
+        console.log(data);
         axios.post("/counts", { codechefApp })
             .then((response) => {
                 this.setState({ difficulty: response.data.difficulty, allTags: response.data.tags, allAuthors: response.data.authors, mytags: response.data.personal }, () => {
                 });
             }).catch((error) => {
-                console.log(error.response.data);
+                console.log(error);
             })
+    }
+    getTagsPostData(difficulty, author, tags, personal) {
+        const data = { codechefApp: this.props.cookie };
+        if (difficulty !== undefined) {
+            data["difficulty"] = difficulty;
+        }
+        if (author !== undefined) {
+            data["author"] = author;
+        }
+        if (tags !== undefined) {
+            data["tags"] = tags;
+        }
+        if (personal !== undefined) {
+            data["tags"] = personal;
+        }
+        return data;
     }
 
     getProblems() {
@@ -153,7 +175,7 @@ export default class Problems extends Component {
                 this.setState({ problemTags: preTags });
                 openNotification();
             }).catch((error) => {
-                console.log(error.response.data);
+                console.log(error);
             })
     }
 
@@ -211,6 +233,7 @@ export default class Problems extends Component {
                                 style={{ width: '100%', margin: 10 }}
                                 placeholder="Select Difficulty"
                                 onChange={this.handleChangeDiff}
+                                defaultValue={this.state.selectedDifficulty}
                                 allowClear
                             >
                                 {this.renderOptions(this.state.difficulty)}
@@ -220,6 +243,7 @@ export default class Problems extends Component {
                                 style={{ width: '100%', margin: 10 }}
                                 placeholder="Select Author"
                                 onChange={this.handleChangeAuthor}
+                                defaultValue={this.state.selectedAuthor}
                                 allowClear
                             >
                                 {this.renderOptions(this.state.allAuthors)}
@@ -229,6 +253,7 @@ export default class Problems extends Component {
                                 style={{ width: '100%', margin: 10 }}
                                 placeholder="Select Tags"
                                 onChange={this.handleChangeTags}
+                                defaultValue={this.state.selectedTags}
                                 allowClear
                             >
                                 {this.renderOptions(this.state.allTags)}
@@ -239,6 +264,7 @@ export default class Problems extends Component {
                                     style={{ width: '100%', margin: 10 }}
                                     placeholder="Select Personal Tags"
                                     onChange={this.handleChangePersonalTags}
+                                    defaultValue={this.state.selectedPersonalTags}
                                     allowClear
                                 >
                                     {this.renderOptions(this.state.mytags)}

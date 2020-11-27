@@ -14,8 +14,9 @@ export default class AllTags extends Component {
             allTags: [],
             allAuthors: [],
             difficulty: [],
-            id: "",
+            id: "difficulty",
         };
+        this.tagsClick = this.tagsClick.bind(this);
     }
 
     componentDidMount() {
@@ -34,41 +35,63 @@ export default class AllTags extends Component {
             return this.tagRender(item);
         });
     }
+    tagsClick(name) {
+        const params = this.state.id;
+        this.props.history.push({
+            pathname: '/problems',
+            state: { [params]: name }
+        })
+    }
     tagRender(label) {
         return (
-            this.state.id != "4" ? (
-                <Tag color="purple" style={{ marginRight: 15, marginBottom: 15 }}>
-                    {label.name} x {label.count}
-                </Tag>
-            ) :
-                (
-                    <Tag color="blue" style={{ marginRight: 15, marginBottom: 15 }}>
+            this.state.id != "ptags" ? (
+                <div className="each-tag" >
+                    <Tag color="purple" style={{ marginRight: 15, marginBottom: 15 }} onClick={() => this.tagsClick(label.name)}>
                         {label.name} x {label.count}
                     </Tag>
+                </div>
+            ) :
+                (
+                    <div className="each-tag">
+                        <Tag color="blue" style={{ marginRight: 15, marginBottom: 15 }} onClick={() => this.tagsClick(label.name)}>
+                            {label.name} x {label.count}
+                        </Tag>
+                    </div>
                 )
         );
     }
 
     render() {
         const { TabPane } = Tabs;
+        console.log(this.props.isLoggedIn);
         return (
             <div className="allTagsContainer">
                 <Navbar subTitle={"All Tags"} {...this.props} />
                 <div className="tabsContainer">
-                    <Tabs defaultActiveKey="1" centered onChange={(key) => { this.setState({ id: key }) }}>
-                        <TabPane tab="Difficulty" key="1">
-                            {this.renderAllTags(this.state.difficulty)}
+                    <Tabs defaultActiveKey="difficulty" centered onChange={(key) => { this.setState({ id: key }) }}>
+                        <TabPane tab="Difficulty" key="difficulty">
+                            <div className="tb-content">
+                                {this.renderAllTags(this.state.difficulty)}
+                            </div>
                         </TabPane>
-                        <TabPane tab="Authors" key="2">
-                            {this.renderAllTags(this.state.allAuthors)}
+                        <TabPane tab="Authors" key="author">
+                            <div className="tb-content">
+                                {this.renderAllTags(this.state.allAuthors)}
+                            </div>
                         </TabPane>
-                        <TabPane tab="All Other Tags" key="3">
-                            {this.renderAllTags(this.state.allTags)}
+                        <TabPane tab="All Other Tags" key="tags">
+                            <div className="tb-content">
+                                {this.renderAllTags(this.state.allTags)}
+                            </div>
                         </TabPane>
                         {this.props.isLoggedIn && (
-                            <TabPane tab="Personal Tags" key="4">
-                                {this.renderAllTags(this.state.mytags)}
+
+                            <TabPane tab="Personal Tags" key="ptags">
+                                <div className="tb-content">
+                                    {this.renderAllTags(this.state.mytags)}
+                                </div>
                             </TabPane>
+
                         )}
                     </Tabs>
                 </div>

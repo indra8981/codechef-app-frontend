@@ -38,9 +38,9 @@ class LogIn extends Component {
                     cookies.set('codechefApp', response.data, { path: '/', expires });
                     notification.success({
                         message: 'Logged in Successfully!',
-                        description: "Logged in successfully Redirecting to the problems page in 3 seconds.",
+                        description: "Logged in successfully Redirecting to the problems page.",
                     });
-                    this.props.setTimeout(() => this.props.history.push('/problems'), 3000);
+                    this.props.setTimeout(() => this.props.history.push('/problems'), 2000);
 
                 }).catch((error) => {
                     notification.error({
@@ -102,7 +102,7 @@ class LogIn extends Component {
 
                             <Form.Item {...tailLayout}>
                                 <Button type="primary" htmlType="submit">
-                                    Submit
+                                    Login
                             </Button>
                             </Form.Item>
                         </Form>

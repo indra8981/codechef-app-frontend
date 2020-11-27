@@ -5,6 +5,21 @@
     height: 100%;
     padding: 50px;
     overflow:scroll;
+}
+.tb-content{
     display: flex;
     flex-wrap: wrap;
+    flex-direction: row;
+    padding-bottom: 10px;
+}
+.each-tag{
+    width: 300px;
+}
+
+.ant-tag-purple{
+    cursor: pointer;
+    
+}
+.ant-tag-blue{
+    cursor: pointer;
 }

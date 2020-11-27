@@ -74,7 +74,6 @@ export default class Navbar extends Component {
             <div>
                 <PageHeader
                     className="site-page-header"
-                    onBack={() => this.props.history.goBack()}
                     title={"Programming Practice App"}
                     subTitle={this.props.subTitle}
                     extra={this.getNav()}
