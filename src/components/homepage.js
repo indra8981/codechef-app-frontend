@@ -43,10 +43,13 @@ export default class HomePage extends Component {
                                     While searching tags each tags also shows the problem counts which it is associated with.
                                 </li>
                                 <li>
-                                    Multiple tags can be applied at the same time
+                                    Multiple tags can be applied at the same time.
                                 </li>
                                 <li>
                                     <Link href="/all-tags">All tags</Link> shows a list of all tags along with their counts.
+                                </li>
+                                <li>
+                                    Once a tag is clicked all the problems associated with that tag is shown.
                                 </li>
                             </ul>
                         </Paragraph>
