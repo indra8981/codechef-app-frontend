@@ -50,3 +50,17 @@ ul.ant-list-item-action a{
     left:45%;
     top:45%;
 }
+.problemEmpty{
+    display: flex;
+    align-content: center;
+    flex-direction: column;
+    justify-content: center;
+    margin-top: 150px;
+}
+.problemEmptyDescription{
+    text-align: center;
+    margin-top: 20px;
+    font-weight: 600;
+    font-size: 18px;
+    color: #ff3853;
+}

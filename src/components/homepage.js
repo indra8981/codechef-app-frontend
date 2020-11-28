@@ -40,7 +40,7 @@ export default class HomePage extends Component {
                                     <Link href="/problems">Problems</Link>  can search problems according to difficulty, authors, tags and if logged in then personal tags which were added to problems.
                                 </li>
                                 <li>
-                                    While searching tags each tags also shows the problem counts which it is associated with along ith autocomplete feature.
+                                    While searching tags each tags also shows the problem counts which it is associated with along with autocomplete feature.
                                 </li>
                                 <li>
                                     Multiple tags can be applied at the same time while searching.

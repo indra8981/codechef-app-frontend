@@ -40,7 +40,7 @@ class LogIn extends Component {
                         message: 'Logged in Successfully!',
                         description: "Logged in successfully Redirecting to the problems page.",
                     });
-                    this.props.setTimeout(() => this.props.history.push('/problems'), 2000);
+                    this.props.setTimeout(() => this.props.history.push('/problems'), 1000);
 
                 }).catch((error) => {
                     notification.error({

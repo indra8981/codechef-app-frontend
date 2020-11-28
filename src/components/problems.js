@@ -5,12 +5,16 @@ import { Button, Form, Input, Card, Select, List, BackTop, notification, Drawer,
 import { InfoCircleOutlined } from '@ant-design/icons';
 import Navbar from "./navbar.js";
 import "./styles/problems.css"
+import {
+    FrownTwoTone,
+} from '@ant-design/icons';
 axios.defaults.baseURL = 'https://codechef-practice-backend.herokuapp.com';
 export default class Problems extends Component {
     constructor(props) {
         super(props);
         this.state = {
             isProblemsLoading: true,
+            problemsEmpty: false,
             problems: [],
             mytags: [],
             allTags: [],
@@ -40,7 +44,8 @@ export default class Problems extends Component {
         const data = this.getTagsPostData(difficulty, author, tags, ptags);
         axios.post("/problems", data)
             .then((response) => {
-                this.setState({ isProblemsLoading: false, problems: response.data });
+                const sz = response.data.length;
+                this.setState({ isProblemsLoading: false, problems: response.data, problemsEmpty: sz > 0 ? false : true });
             }).catch((error) => {
                 console.log(error);
             })
@@ -80,16 +85,17 @@ export default class Problems extends Component {
         if (this.state.selectedAuthor !== undefined) {
             codechefApp["author"] = this.state.selectedAuthor;
         }
-        var tg = "";
+        var tg = [];
         if (this.state.selectedTags.length > 0)
-            tg = `${this.state.selectedTags}`;
+            tg.push(this.state.selectedTags);
 
         if (this.state.selectedPersonalTags.length > 0)
-            tg += `,${this.state.selectedPersonalTags}`;
-        codechefApp["tags"] = tg;
+            tg.push(this.state.selectedPersonalTags);
+        codechefApp["tags"] = `${tg}`;
         axios.post("/problems", codechefApp)
             .then((response) => {
-                this.setState({ isProblemsLoading: false, problems: response.data });
+                const sz = response.data.length;
+                this.setState({ isProblemsLoading: false, problems: response.data, problemsEmpty: sz > 0 ? false : true });
             }).catch((error) => {
                 console.log(error.response.data);
             })
@@ -177,6 +183,19 @@ export default class Problems extends Component {
             }).catch((error) => {
                 console.log(error);
             })
+    }
+    getTagsAction(item) {
+        if (this.props.isLoggedIn)
+            return (
+                [<a onClick={() => { this.getAllTags(item) }} key={`a-${item.id}`}>
+                    View all Tags or add personal tags
+                </a>]
+            )
+        else {
+            return [<a onClick={() => { this.getAllTags(item) }} key={`a-${item.id}`}>
+                View all Tags
+            </a>]
+        }
     }
 
     renderAddTag() {
@@ -280,14 +299,19 @@ export default class Problems extends Component {
                                 <Spin tip="Loading problem list..." />
                             </div>
                         )}
+                        {this.state.problemsEmpty && (
+                            <div className="problemEmpty">
+                                <FrownTwoTone style={{ fontSize: '80px' }} />
+                                <div className="problemEmptyDescription">No problems found! Please narrow down your search filters</div>
+                            </div>
+                        )}
+
                         <List
                             itemLayout="horizontal"
                             dataSource={this.state.problems}
                             renderItem={item => (
                                 <List.Item
-                                    actions={[<a onClick={() => { this.getAllTags(item) }} key={`a-${item.id}`}>
-                                        View All Tags | Login to add Custom Tags
-                                    </a>]}
+                                    actions={this.getTagsAction(item)}
                                 >
                                     <List.Item.Meta
                                         title={<a href={`https://www.codechef.com/problems/${item.problemCode}`} target="_blank">{item.problemCode}</a>}

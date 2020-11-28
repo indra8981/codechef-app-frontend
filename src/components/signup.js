@@ -45,9 +45,9 @@ class SignUp extends Component {
                 .then((response) => {
                     notification.success({
                         message: 'SignUp Successful!',
-                        description: "SignUp successful now redirecting to login page in 3 seconds.",
+                        description: "SignUp successful now redirecting to login page.",
                     });
-                    this.props.setTimeout(() => this.props.history.push('/login'), 3000);
+                    this.props.setTimeout(() => this.props.history.push('/login'), 1000);
                 })
                 .catch((error) => {
                     if (error.response) {
@@ -64,6 +64,7 @@ class SignUp extends Component {
                 description: "Redirecting to the problems page.",
             });
             this.props.history.push('/problems');
+            return null;
         }
         return (
             <div className="rootSignUpContainer">
